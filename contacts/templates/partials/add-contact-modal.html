@@ -1,0 +1,32 @@
+<dialog id="contact_modal" class="modal">
+  <div class="modal-box">
+    <h1 class="font-bold text-lg mb-4">Add Contact</h1>
+    <form action="POST" class="mb-4">
+      {%csrf_token%}
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Name</span>
+        </label>
+        {{form.name}} {%if form.name.error%}
+        <label class="label text-error"> {{form.name.error}} </label>
+        {%endif%}
+      </div>
+
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Email</span>
+        </label>
+        {{form.email}} {%if form.email.error%}
+        <label class="label text-error"> {{form.email.error}} </label>
+        {%endif%}
+      </div>
+      <div class="mt-4"></div>
+      <div class="modal-action">
+        <button type="button" class="btn" onclick="contact_modal.close()">
+          Cancel
+        </button>
+        <button type="submit" class="btn btn-primary">Add New Contact</button>
+      </div>
+    </form>
+  </div>
+</dialog>

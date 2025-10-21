@@ -1,11 +1,30 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from .forms import ContactForm
+from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 @login_required
 def index(request):
     contacts = request.user.contacts.all().order_by('-created_at')
+    form = ContactForm()
+    
     context = {
-        'contacts':contacts
+        'contacts':contacts,
+        'form':form
     }
     return render(request, 'contacts.html', context)
+
+@login_required
+def search_contact(request):
+    import time
+    time.sleep(2)
+    query = request.GET.get('search', '')
+    contacts = request.user.contacts.filter(
+        Q(name__icontains=query) | Q(email__icontains=query)
+    )
+    context ={
+        'contacts':contacts
+    }
+    return render(request, "partials/contact-list.html", context)
